@@ -2,7 +2,6 @@ import org.example.OrderMethods;
 import org.example.Order;
 import org.example.User;
 
-
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import util.UserUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -38,7 +36,6 @@ public class CreateOrderTest {
 
         User user = new User(UserUtil.EMAIL, UserUtil.PASSWORD, UserUtil.NAME);
         UserUtil.create(user);
-
         accessToken = UserUtil.login(UserUtil.EMAIL, UserUtil.PASSWORD)
                 .replace("Bearer ", "");
     }

@@ -12,6 +12,7 @@ import util.UserUtil;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
+import static util.UserUtil.BASE_URI;
 import static util.UserUtil.EMAIL;
 import static util.UserUtil.NAME;
 import static util.UserUtil.PASSWORD;
@@ -24,25 +25,25 @@ public class ChangeUserDataTest {
     @BeforeEach
     public void setUp() {
 
-        RestAssured.baseURI = "https://stellarburgers.education-services.ru";
+        RestAssured.baseURI = BASE_URI;
         accessToken = UserUtil.login(EMAIL, PASSWORD);
         tearDown();
     }
 
-    @Test  //проверить, неправильно
+    @Test
     @Description ("Проверка обновления данных пользователя с авторизацией")
     @DisplayName("Обновление данных с авторизацией")
     @Step("Проверяем обновление данных пользователя с авторизацией")
     public void patchUserAuthTest(){
-        // given
+
         User user = new User(EMAIL, PASSWORD, NAME);
         UserUtil.create(user);
         accessToken = UserUtil.login(EMAIL, PASSWORD);
 
-        // when
+
         User updatedUser = new User("new_" + EMAIL, PASSWORD, "NewName");
 
-        // then
+
         Response response = given()
                 .header("Content-type", "application/json")
                 .header("Authorization", "Bearer " + accessToken)
@@ -57,7 +58,7 @@ public class ChangeUserDataTest {
                 .body("user.name", equalTo("NewName"))
                 .body("user", notNullValue());
     }
-    @Test  //проверить, неправильно
+    @Test
     @Description ("Проверка обновления данных пользователя без авторизации")
     @DisplayName("Обновление данных без авторизации")
     @Step("Проверяем обновление данных пользователя без авторизации")

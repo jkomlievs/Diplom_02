@@ -10,13 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import util.UserUtil;
-
 import java.util.List;
-
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
+import static util.UserUtil.BASE_URI;
 import static util.UserUtil.EMAIL;
 import static util.UserUtil.NAME;
 import static util.UserUtil.PASSWORD;
@@ -30,7 +29,7 @@ public class GetOrderUserTest {
     @BeforeEach
     public void setUp() {
 
-        RestAssured.baseURI = "https://stellarburgers.education-services.ru/";
+        RestAssured.baseURI = BASE_URI;
         orderMethods = new OrderMethods();
         User user = new User(EMAIL, PASSWORD, NAME);
         UserUtil.create(user);
@@ -80,4 +79,3 @@ public class GetOrderUserTest {
         }
     }
 }
-

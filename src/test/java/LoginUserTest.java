@@ -1,24 +1,23 @@
-import org.example.User;
-import util.UserUtil;
-
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-
+import org.example.User;
+import org.example.UserLogin;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import util.UserUtil;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.startsWith;
+import static util.UserUtil.BASE_URI;
 import static util.UserUtil.EMAIL;
-import static util.UserUtil.PASSWORD;
 import static util.UserUtil.NAME;
-
-import static org.hamcrest.Matchers.equalTo;
+import static util.UserUtil.PASSWORD;
 
 public class LoginUserTest {
 
@@ -27,7 +26,7 @@ public class LoginUserTest {
     @BeforeEach
     public void setUp() {
 
-        RestAssured.baseURI = "https://stellarburgers.education-services.ru";
+        RestAssured.baseURI = BASE_URI;
         accessToken = UserUtil.login(EMAIL, PASSWORD);
         if (accessToken != null) {
             UserUtil.delete(accessToken);
@@ -41,9 +40,11 @@ public class LoginUserTest {
     public void loginUserGet201Test() {
         User user = new User(EMAIL, PASSWORD, NAME);
         UserUtil.create(user);
+        UserLogin loginData = new UserLogin(EMAIL, PASSWORD);
+
         accessToken = given()
                 .header("Content-type", "application/json")
-                .body(String.format("{\"email\": \"%s\", \"password\": \"%s\"}", EMAIL, PASSWORD))
+                .body(loginData)
                 .when()
                 .post("/api/auth/login")
                 .then()
@@ -80,10 +81,8 @@ public class LoginUserTest {
                 .body("user.email", equalTo(EMAIL))
                 .body("user.name", equalTo(NAME));
 
-        // сохраняем токен без префикса "Bearer " для последующего удаления
         accessToken = response.jsonPath().getString("accessToken").replace("Bearer ", "");
     }
-
 
     @Test
     @Step("Проверка авторизации несуществуюшего пользователя")

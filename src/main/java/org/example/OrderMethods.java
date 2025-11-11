@@ -1,7 +1,6 @@
 package org.example;
 
 import io.qameta.allure.Step;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
@@ -10,11 +9,7 @@ public class OrderMethods {
 
     private static final String INGREDIENTS = "/api/ingredients";
     private static final String ORDERS = "/api/orders";
-
-    static {
-
-        RestAssured.baseURI = "https://stellarburgers.education-services.ru";
-    }
+    public static final String BASE_URI = "https://stellarburgers.education-services.ru";
 
     @Step("Получить список ингредиентов")
     public Response getIngredients() {

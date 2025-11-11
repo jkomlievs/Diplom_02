@@ -1,11 +1,4 @@
 package org.example;
-
-
-import org.example.Bun;
-import org.example.Burger;
-import org.example.Database;
-import org.example.Ingredient;
-
 import java.util.List;
 
 public class praktikum {

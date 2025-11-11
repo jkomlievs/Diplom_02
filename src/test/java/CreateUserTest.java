@@ -1,18 +1,16 @@
 import org.example.User;
 import util.UserUtil;
-
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.notNullValue;
+import static util.UserUtil.BASE_URI;
 import static util.UserUtil.EMAIL;
 import static util.UserUtil.PASSWORD;
 import static util.UserUtil.NAME;
@@ -25,7 +23,7 @@ public class CreateUserTest {
 
     @BeforeEach
     public void setUp() {
-        RestAssured.baseURI = "https://stellarburgers.education-services.ru";
+        RestAssured.baseURI = BASE_URI;
         accessToken = UserUtil.login(EMAIL, PASSWORD);
         if (accessToken != null) {
             UserUtil.delete(accessToken);
@@ -52,7 +50,6 @@ public class CreateUserTest {
                 .body("accessToken", notNullValue())
                 .body("refreshToken", notNullValue());
 
-        // сохраняем токен для последующего удаления пользователя
         accessToken = response.jsonPath().getString("accessToken").replace("Bearer ", "");
     }
 
